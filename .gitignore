@@ -3,7 +3,6 @@
 #  Secrets and live agent state must NEVER be committed.
 # ─────────────────────────────────────────────────────────────
 
-# --- Secrets & environment ---------------------------------------------------
 .env
 .env.*
 !.env.example
@@ -22,7 +21,6 @@ hermes-home/
 projects/*
 !projects/.gitkeep
 
-# --- Python (Hermes is Python 3.11+) -----------------------------------------
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -30,17 +28,14 @@ __pycache__/
 venv/
 .uv/
 
-# --- Node / TypeScript (future web UI) ---------------------------------------
 node_modules/
 dist/
 build/
 *.tsbuildinfo
 .npm/
 
-# --- Docker ------------------------------------------------------------------
 *.log
 
-# --- OS / editor -------------------------------------------------------------
 .DS_Store
 Thumbs.db
 desktop.ini
