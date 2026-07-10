@@ -1,0 +1,49 @@
+# ─────────────────────────────────────────────────────────────
+#  Virtus — .gitignore
+#  Secrets and live agent state must NEVER be committed.
+# ─────────────────────────────────────────────────────────────
+
+# --- Secrets & environment ---------------------------------------------------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+auth.json
+
+# --- Hermes Agent live state (holds API keys, OAuth tokens, memory) ----------
+# Mounted into the container as ~/.hermes; regenerated at runtime.
+hermes-home/
+**/.hermes/
+
+# --- Mounted project workspaces (agents work on external repos) --------------
+# Keep the folder, ignore whatever gets mounted/checked out inside it.
+projects/*
+!projects/.gitkeep
+
+# --- Python (Hermes is Python 3.11+) -----------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.uv/
+
+# --- Node / TypeScript (future web UI) ---------------------------------------
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+.npm/
+
+# --- Docker ------------------------------------------------------------------
+*.log
+
+# --- OS / editor -------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
