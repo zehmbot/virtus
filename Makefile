@@ -4,17 +4,24 @@
 COMPOSE := docker compose
 SERVICE := hermes
 
+# The agent crew. Add or remove a name here to change which profiles get seeded.
+PROFILES := devops frontend backend researcher
+
 .DEFAULT_GOAL := help
 
-.PHONY: help build up down restart ps logs shell profiles ensure-env \
+.PHONY: help bootstrap build up down restart ps logs shell profiles seed ensure-env \
         devops frontend backend researcher chat \
         setup-devops setup-frontend setup-backend setup-researcher setup
 
 help:
 	@echo "Virtus — Hermes agent crew"
 	@echo ""
+	@echo "Quick start (fresh clone):"
+	@echo "  make bootstrap Build image, start container, and seed all agent profiles"
+	@echo ""
 	@echo "Lifecycle:"
 	@echo "  make build     Build the Hermes image"
+	@echo "  make seed      Create any missing agent profiles ($(PROFILES))"
 	@echo "  make up        Start the crew container (detached)"
 	@echo "  make down      Stop and remove the container"
 	@echo "  make restart   Restart the container"
@@ -34,6 +41,23 @@ help:
 # Create .env from the template on first use so compose never chokes on a missing file.
 ensure-env:
 	@test -f .env || { cp .env.example .env && echo "Created .env from .env.example — fill in your keys."; }
+
+# --- Bootstrap ---------------------------------------------------------------
+# One command from a fresh clone to a ready crew.
+bootstrap:
+	@$(MAKE) build
+	@$(MAKE) up
+	@$(MAKE) seed
+	@echo ""
+	@echo "Virtus is ready. Authenticate an agent, then chat:"
+	@echo "  make setup-devops   # log a provider in"
+	@echo "  make devops         # start chatting"
+
+# Idempotently create any profiles that don't exist yet.
+seed: up
+	@$(COMPOSE) exec -T $(SERVICE) sh -c \
+	  'for p in $(PROFILES); do hermes profile list 2>/dev/null | grep -qw "$$p" || hermes profile create "$$p"; done'
+	@echo "Profiles seeded: $(PROFILES)"
 
 # --- Lifecycle ---------------------------------------------------------------
 build: ensure-env
