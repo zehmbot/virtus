@@ -16,8 +16,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PATH="/root/.local/bin:/opt/hermes/bin:${PATH}"
 
 # Runtime deps the Hermes installer/agent expects.
+# xz-utils is required to extract the Node.js .tar.xz the installer downloads.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      curl ca-certificates git ripgrep ffmpeg \
+      curl ca-certificates git ripgrep ffmpeg xz-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Hermes Agent (official install script).
