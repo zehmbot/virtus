@@ -15,5 +15,7 @@ services:
     # Persistent Hermes state: profiles, auth.json (OAuth tokens), memory, sessions.
     volumes:
       - ./hermes-home:/opt/data
+      # Persona sources (read-only); `make seed` syncs each into a profile's SOUL.md.
+      - ./personas:/opt/personas:ro
     # Keep-alive (image CMD is `sleep infinity`); we attach on demand via exec.
     restart: unless-stopped

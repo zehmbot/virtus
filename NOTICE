@@ -1,0 +1,20 @@
+Virtus — Third-Party Notices
+============================
+
+This project builds upon and bundles the following MIT-licensed works.
+
+1. Hermes Agent — Nous Research
+   https://github.com/NousResearch/hermes-agent
+   Licensed under the MIT License.
+   Virtus builds a container image from this project (see Dockerfile).
+
+2. agency-agents — Copyright (c) 2025 AgentLand Contributors
+   https://github.com/msitarzewski/agency-agents
+   Licensed under the MIT License.
+   The agent persona files under personas/ are derived from this project:
+     personas/devops.md      <- engineering/engineering-devops-automator.md
+     personas/frontend.md    <- engineering/engineering-frontend-developer.md
+     personas/backend.md     <- engineering/engineering-backend-architect.md
+     personas/researcher.md  <- product/product-trend-researcher.md
+
+The full MIT License text for each work is available at the URLs above.

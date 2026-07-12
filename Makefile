@@ -21,7 +21,7 @@ help:
 	@echo ""
 	@echo "Lifecycle:"
 	@echo "  make build     Build the Hermes image"
-	@echo "  make seed      Create any missing agent profiles ($(PROFILES))"
+	@echo "  make seed      Create missing profiles + sync personas into SOUL.md"
 	@echo "  make up        Start the crew container (detached)"
 	@echo "  make down      Stop and remove the container"
 	@echo "  make restart   Restart the container"
@@ -53,11 +53,12 @@ bootstrap:
 	@echo "  make setup-devops   # log a provider in"
 	@echo "  make devops         # start chatting"
 
-# Idempotently create any profiles that don't exist yet.
+# Idempotently create any missing profiles, then sync each persona into its
+# SOUL.md. Personas under personas/ are the source of truth: editing a profile's
+# SOUL.md directly will be overwritten on the next seed — edit personas/<name>.md.
 seed: up
-	@$(COMPOSE) exec -T $(SERVICE) sh -c \
-	  'for p in $(PROFILES); do hermes profile list 2>/dev/null | grep -qw "$$p" || hermes profile create "$$p"; done'
-	@echo "Profiles seeded: $(PROFILES)"
+	@$(COMPOSE) exec -T $(SERVICE) sh -c 'for p in $(PROFILES); do hermes profile list 2>/dev/null | grep -qw "$$p" || hermes profile create "$$p"; if [ -f "/opt/personas/$$p.md" ]; then cp "/opt/personas/$$p.md" "/opt/data/profiles/$$p/SOUL.md"; fi; done'
+	@echo "Seeded + personas synced: $(PROFILES)"
 
 # --- Lifecycle ---------------------------------------------------------------
 build: ensure-env
