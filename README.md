@@ -24,3 +24,60 @@ Researcher — each with its own identity, memory, and skills.
   by a handful of straightforward commands.
 
 The goal is simple: turn your plans into work a crew of agents can actually pick up and do.
+
+## Quick Start
+
+### Requirements
+
+- **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** — installed and running.
+- **GNU Make** — the front door for every command.
+  - Windows: `winget install ezwinports.make`
+  - macOS: preinstalled (or `brew install make`)
+  - Linux: `sudo apt install make` (or your package manager)
+- **git** — to clone the repo.
+
+### How to use
+
+```bash
+# 1. Clone and enter the project
+git clone https://github.com/zehmbot/virtus.git && cd Virtus
+
+# 2. Build the image, start the container, and create the crew (one command)
+make bootstrap
+
+# 3. Log an agent in to a model provider (interactive; opens the setup wizard)
+make setup-devops
+
+# 4. Start working with an agent
+make devops
+```
+
+`make bootstrap` is safe to re-run — it only creates what's missing. Each agent
+(`devops`, `frontend`, `backend`, `researcher`) has its own identity, memory, and
+login, and they share the folders you mount under `projects/` so they can
+collaborate on the same codebase.
+
+### Commands
+
+| Command | What it does |
+| --- | --- |
+| `make bootstrap` | Build the image, start the container, and seed all agent profiles |
+| `make up` / `make down` | Start / stop the crew container |
+| `make restart` | Restart the container |
+| `make ps` | Show container status |
+| `make logs` | Follow container logs |
+| `make build` | (Re)build the Hermes image |
+| `make seed` | Create any missing profiles + sync personas into their `SOUL.md` |
+| `make profiles` | List all agent profiles |
+| `make shell` | Open a shell inside the container |
+| `make devops` \| `frontend` \| `backend` \| `researcher` | Chat with that agent |
+| `make chat P=<profile>` | Chat with any profile by name |
+| `make setup-<agent>` | Log that agent in to a provider (interactive) |
+| `make setup P=<profile>` | Log any profile in by name |
+
+Run `make help` to see the full list.
+
+## Links
+
+- **Hermes Agent** — the agent runtime Virtus is built on: [website](https://hermes-agent.nousresearch.com/) · [GitHub](https://github.com/NousResearch/hermes-agent)
+- **agency-agents** — the source of the crew's personas (MIT): [GitHub](https://github.com/msitarzewski/agency-agents)
