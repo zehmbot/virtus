@@ -1,6 +1,10 @@
 # Virtus — control surface for the Hermes agent crew.
 # Run `make help` to list targets.
 
+# Run recipes with bash so they work on Windows too, not cmd.exe.
+# Requires bash on PATH — Git for Windows provides it.
+SHELL := bash
+
 COMPOSE := docker compose
 SERVICE := hermes
 
