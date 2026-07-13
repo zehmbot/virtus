@@ -31,7 +31,10 @@ The goal is simple: turn your plans into work a crew of agents can actually pick
 
 - **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** — installed and running.
 - **GNU Make** — the front door for every command.
-  - Windows: `winget install ezwinports.make`
+  - Windows: `winget install ezwinports.make`. Make also needs **bash** to run its
+    recipes (it won't work with `cmd.exe`). Install **[Git for Windows](https://git-scm.com/download/win)**,
+    which provides bash, and make sure it's on your `PATH`. The `Makefile` is
+    configured to use bash, so `make` then works from PowerShell or Git Bash.
   - macOS: preinstalled (or `brew install make`)
   - Linux: `sudo apt install make` (or your package manager)
 - **git** — to clone the repo.
