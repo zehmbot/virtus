@@ -1,30 +1,9 @@
 name: virtus
 
 services:
-  hermes:
-    build:
-      context: .
-      args:
-        HERMES_VERSION: ${HERMES_VERSION:-v2026.7.7.2}
-    image: virtus-image
-    container_name: virtus
-    # API keys for providers that use them (optional; OAuth logins don't need it).
-    env_file:
-      - path: .env
-        required: false
-    # Persistent Hermes state: profiles, auth.json (OAuth tokens), memory, sessions.
-    volumes:
-      - ./hermes-home:/opt/data
-      # Persona sources (read-only); `make seed` syncs each into a profile's SOUL.md.
-      - ./personas:/opt/personas:ro
-    # Keep-alive (image CMD is `sleep infinity`); we attach on demand via exec.
-    restart: unless-stopped
-
-  # --- Goose ----------------------------------------------
   goose:
     build:
       context: .
-      dockerfile: Dockerfile.goose
       args:
         GOOSE_VERSION: ${GOOSE_VERSION:-1.43.0}
     image: virtus-goose

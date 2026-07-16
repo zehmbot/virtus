@@ -11,13 +11,7 @@
 secrets/
 auth.json
 
-# --- Hermes Agent live state (holds API keys, OAuth tokens, memory) ----------
-# Mounted into the container as ~/.hermes; regenerated at runtime.
-hermes-home/
-**/.hermes/
-
 # --- Goose live state (holds secrets.yaml, OAuth tokens, memory, sessions) ---
-# Mounted into the container as /opt/data; one HOME per agent inside it.
 goose-home/
 
 # --- Mounted project workspaces (agents work on external repos) --------------
