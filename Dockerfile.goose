@@ -23,6 +23,9 @@ RUN curl -fsSL https://github.com/block/goose/releases/download/stable/download_
 # which we point at a subdir of this mounted volume — e.g. HOME=/opt/data/devops.
 # One volume, N isolated agents (the Goose equivalent of Hermes profiles).
 VOLUME ["/opt/data"]
-WORKDIR /opt/data
+
+# Start agents in the shared workspace, not in /opt/data. /opt/data holds every
+# agent's private state, and agents with shell tools will wander into it.
+WORKDIR /opt/projects
 
 CMD ["sleep", "infinity"]
