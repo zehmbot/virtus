@@ -17,14 +17,15 @@ CREW := devops frontend backend researcher
 
 .DEFAULT_GOAL := help
 
-.PHONY: help bootstrap up down seed ensure-env $(CREW)
+.PHONY: help bootstrap up stop down seed ensure-env $(CREW)
 
 help:
 	@echo "Virtus - Goose agent crew"
 	@echo ""
 	@echo "  make bootstrap   Build, start and seed the crew (first run)"
 	@echo "  make up          Start the container"
-	@echo "  make down        Stop the container"
+	@echo "  make stop        Stop the container, keeping it"
+	@echo "  make down        Stop and remove the container"
 	@echo "  make seed        Re-sync personas into each agent"
 	@echo ""
 	@echo "  make devops | frontend | backend | researcher"
@@ -44,6 +45,10 @@ bootstrap: ensure-env
 
 up: ensure-env
 	@$(COMPOSE) up -d $(SERVICE)
+
+# Everyday pause: the container stays, so `make up` picks it straight back up.
+stop:
+	@$(COMPOSE) stop $(SERVICE)
 
 down:
 	@$(COMPOSE) down

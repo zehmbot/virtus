@@ -17,3 +17,4 @@ services:
       - ./personas:/opt/personas:ro
       - ./scripts:/opt/scripts:ro
     restart: unless-stopped
+    init: true
