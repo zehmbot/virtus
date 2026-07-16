@@ -16,6 +16,10 @@ auth.json
 hermes-home/
 **/.hermes/
 
+# --- Goose live state (holds secrets.yaml, OAuth tokens, memory, sessions) ---
+# Mounted into the container as /opt/data; one HOME per agent inside it.
+goose-home/
+
 # --- Mounted project workspaces (agents work on external repos) --------------
 # Keep the folder, ignore whatever gets mounted/checked out inside it.
 projects/*

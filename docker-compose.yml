@@ -19,3 +19,27 @@ services:
       - ./personas:/opt/personas:ro
     # Keep-alive (image CMD is `sleep infinity`); we attach on demand via exec.
     restart: unless-stopped
+
+  # --- Goose (migration target) ----------------------------------------------
+  # Runs alongside hermes for now; it replaces hermes once the crew works.
+  # Start it explicitly:  docker compose up -d goose
+  goose:
+    build:
+      context: .
+      dockerfile: Dockerfile.goose
+      args:
+        GOOSE_VERSION: ${GOOSE_VERSION:-1.43.0}
+    image: virtus-goose
+    container_name: virtus-goose
+    # Provider API keys (optional; OAuth/subscription providers don't use them).
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      # Per-agent state. Each agent's HOME is a subdir here (config, secrets,
+      # sessions, memory, logs) — one volume, N isolated agents.
+      - ./goose-home:/opt/data
+      # Shared workspaces: every agent sees the same projects.
+      - ./projects:/opt/projects
+    # Keep-alive (image CMD is `sleep infinity`); we attach on demand via exec.
+    restart: unless-stopped
